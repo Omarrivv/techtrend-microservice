@@ -1,0 +1,39 @@
+# <tipo>(<alcance>): <descripción corta>
+# 
+# <descripción detallada opcional>
+# 
+# <notas de pie opcionales>
+# 
+# Tipos de commit:
+#   feat     (nueva característica)
+#   fix      (corrección de bug)
+#   docs     (documentación)
+#   style    (formato, punto y coma faltante, etc; no afecta el código)
+#   refactor (refactorización del código de producción)
+#   test     (agregar pruebas, refactorizar pruebas; no afecta el código de producción)
+#   chore    (actualizar tareas de build, configuraciones, etc; no afecta el código de producción)
+# 
+# Alcance (opcional):
+#   auth     (autenticación)
+#   catalog  (catálogo de productos)
+#   cart     (carrito de compras)
+#   payment  (pagos)
+#   config   (configuración)
+#   test     (pruebas)
+#   docs     (documentación)
+# 
+# Ejemplos:
+#   feat(auth): agregar validación de email en registro
+#   fix(cart): corregir cálculo de total con descuentos
+#   docs: actualizar README con instrucciones de instalación
+#   test(payment): agregar pruebas para procesamiento de pagos
+#   refactor(catalog): simplificar lógica de búsqueda de productos
+#   chore: actualizar dependencias de Maven
+# 
+# Reglas:
+# - Usa imperativo en la descripción ("agregar" no "agregado")
+# - No capitalices la primera letra
+# - No termines con punto
+# - Máximo 50 caracteres en la descripción corta
+# - Separa el cuerpo del pie con una línea en blanco
+# - Usa el pie para referenciar issues: "Closes #123"

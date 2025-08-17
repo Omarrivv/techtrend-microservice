@@ -1,0 +1,87 @@
+spring:
+  application:
+    name: techtrend-microservice
+  
+  # Configuración de base de datos
+  datasource:
+    url: jdbc:h2:mem:techtrend_db
+    username: sa
+    password: 
+    driver-class-name: org.h2.Driver
+  
+  # Configuración JPA/Hibernate
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+        dialect: org.hibernate.dialect.H2Dialect
+  
+  # Configuración H2 Console (solo para desarrollo)
+  h2:
+    console:
+      enabled: true
+      path: /h2-console
+  
+  # Configuración de validación
+  jackson:
+    default-property-inclusion: non_null
+    serialization:
+      write-dates-as-timestamps: false
+
+# Configuración del servidor
+server:
+  port: 8080
+  servlet:
+    context-path: /api
+
+# Configuración de logging
+logging:
+  level:
+    com.techtrend: DEBUG
+    org.springframework.security: DEBUG
+    org.hibernate.SQL: DEBUG
+    org.hibernate.type.descriptor.sql.BasicBinder: TRACE
+  pattern:
+    console: "%d{yyyy-MM-dd HH:mm:ss} - %msg%n"
+
+# Configuración JWT
+jwt:
+  secret: techtrend-super-secret-key-for-jwt-token-generation-2024
+  expiration: 86400000 # 24 horas en milisegundos
+
+# Configuración de seguridad
+security:
+  bcrypt:
+    strength: 12
+  jwt:
+    header: Authorization
+    prefix: Bearer
+
+# Configuración de la aplicación
+app:
+  name: TechTrend E-Commerce
+  version: 1.0.0
+  description: Plataforma de e-commerce especializada en equipos informáticos
+  
+  # Configuraciones específicas por microservicio
+  authentication:
+    max-login-attempts: 3
+    lockout-duration: 300000 # 5 minutos en milisegundos
+    
+  catalog:
+    default-page-size: 20
+    max-page-size: 100
+    
+  cart:
+    max-items-per-cart: 50
+    session-timeout: 3600000 # 1 hora en milisegundos
+    
+  payment:
+    supported-currencies:
+      - USD
+      - EUR
+      - PEN
+    max-amount: 100000.00

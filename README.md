@@ -101,28 +101,65 @@ techtrend-microservice/
 - **Maven 3.6** o superior
 - **Git**
 
-### Pasos de Instalación
+### **⚡ Inicio Rápido**
+Para una configuración rápida, consulta: **[QUICK_START.md](./QUICK_START.md)**
 
-1. **Clonar el repositorio**
-   ```bash
-   git clone <url-del-repositorio>
-   cd techtrend-microservice
-   ```
+### **🔧 Comandos de Configuración:**
 
-2. **Compilar el proyecto**
-   ```bash
-   mvn clean compile
-   ```
+#### **1. Configurar GitFlow:**
+```bash
+# Configuración automática
+./scripts/setup-gitflow.sh
+# O en Windows: scripts\setup-gitflow.bat
 
-3. **Ejecutar las pruebas**
-   ```bash
-   mvn test
-   ```
+# Configuración manual
+git flow init -d
+git config commit.template .gitmessage
+chmod +x .git/hooks/pre-commit
+```
 
-4. **Ejecutar la aplicación**
-   ```bash
-   mvn spring-boot:run
-   ```
+#### **2. Compilar y Ejecutar:**
+```bash
+# Compilar el proyecto
+mvn clean compile
+
+# Ejecutar tests
+mvn test
+
+# Ejecutar con cobertura
+mvn test jacoco:report
+
+# Ejecutar la aplicación
+mvn spring-boot:run
+
+# Ejecutar en modo debug
+mvn spring-boot:run -Dspring-boot.run.jvmArguments="-Xdebug -Xrunjdwp:transport=dt_socket,server=y,suspend=n,address=5005"
+```
+
+#### **3. Verificar Funcionamiento:**
+```bash
+# Health check
+curl http://localhost:8080/health
+
+# API principal
+curl http://localhost:8080/api
+
+# Swagger UI
+open http://localhost:8080/swagger-ui.html
+```
+
+### **🌐 URLs de Acceso:**
+- **API Principal**: http://localhost:8080/api
+- **Health Check**: http://localhost:8080/health
+- **Swagger UI**: http://localhost:8080/swagger-ui.html
+- **H2 Console**: http://localhost:8080/h2-console
+- **Actuator**: http://localhost:8080/actuator
+
+### **🗄️ Base de Datos H2:**
+- **URL**: http://localhost:8080/h2-console
+- **JDBC URL**: `jdbc:h2:mem:testdb`
+- **Usuario**: `sa`
+- **Contraseña**: (vacío)
 
 ## 🧪 Pruebas Unitarias
 
@@ -459,6 +496,188 @@ server:
 - **Nivel**: WARN para situaciones de atención
 - **Nivel**: ERROR para errores críticos
 
+## 🌿 GitFlow y Buenas Prácticas
+
+### **📋 Configuración Inicial de GitFlow:**
+
+```bash
+# Inicializar GitFlow
+git flow init
+
+# Configurar commit template
+git config commit.template .gitmessage
+
+# Hacer el hook ejecutable (Linux/Mac)
+chmod +x .git/hooks/pre-commit
+```
+
+### **🔄 Flujo de Trabajo con GitFlow:**
+
+#### **1. Desarrollo de Nuevas Características:**
+```bash
+# Crear nueva rama feature
+git flow feature start nombre-de-la-feature
+
+# Hacer cambios y commits
+git add .
+git commit -m "feat(auth): agregar validación de email"
+
+# Finalizar feature
+git flow feature finish nombre-de-la-feature
+```
+
+#### **2. Preparación de Release:**
+```bash
+# Crear rama release
+git flow release start 1.1.0
+
+# Hacer ajustes finales
+git commit -m "chore: actualizar versión a 1.1.0"
+
+# Finalizar release
+git flow release finish 1.1.0
+```
+
+#### **3. Hotfixes:**
+```bash
+# Crear hotfix
+git flow hotfix start nombre-del-hotfix
+
+# Corregir el problema
+git commit -m "fix(cart): corregir cálculo de total"
+
+# Finalizar hotfix
+git flow hotfix finish nombre-del-hotfix
+```
+
+### **📝 Convenciones de Commits:**
+
+#### **Formato:**
+```
+<tipo>(<alcance>): <descripción corta>
+
+<descripción detallada opcional>
+
+<notas de pie opcionales>
+```
+
+#### **Tipos de Commit:**
+- `feat` - Nueva característica
+- `fix` - Corrección de bug
+- `docs` - Documentación
+- `style` - Formato (no afecta código)
+- `refactor` - Refactorización
+- `test` - Pruebas
+- `chore` - Tareas de build/configuración
+
+#### **Alcances:**
+- `auth` - Autenticación
+- `catalog` - Catálogo
+- `cart` - Carrito
+- `payment` - Pagos
+- `config` - Configuración
+- `test` - Pruebas
+- `docs` - Documentación
+
+#### **Ejemplos:**
+```bash
+git commit -m "feat(auth): agregar validación de email en registro"
+git commit -m "fix(cart): corregir cálculo de total con descuentos"
+git commit -m "docs: actualizar README con instrucciones de GitFlow"
+git commit -m "test(payment): agregar pruebas para procesamiento de pagos"
+git commit -m "refactor(catalog): simplificar lógica de búsqueda"
+git commit -m "chore: actualizar dependencias de Maven"
+```
+
+### **🔍 Pull Request Process:**
+
+#### **1. Crear Pull Request:**
+- Usar la plantilla de PR en `.github/pull_request_template.md`
+- Asignar reviewers apropiados
+- Agregar etiquetas relevantes
+
+#### **2. Checklist de PR:**
+- [ ] Código sigue convenciones de estilo
+- [ ] Pruebas unitarias pasando
+- [ ] Pruebas de integración pasando
+- [ ] Documentación actualizada
+- [ ] No hay warnings de compilación
+- [ ] Código revisado por el desarrollador
+
+#### **3. Review Process:**
+- Al menos 1 aprobación requerida
+- Todos los checks de CI deben pasar
+- Resolver comentarios de review
+
+### **🏷️ Etiquetas de Issues:**
+
+#### **Tipos:**
+- `bug` - Reporte de bug
+- `enhancement` - Nueva característica
+- `documentation` - Mejoras en documentación
+- `good first issue` - Para nuevos contribuidores
+
+#### **Microservicios:**
+- `auth` - Autenticación
+- `catalog` - Catálogo
+- `cart` - Carrito
+- `payment` - Pagos
+
+#### **Prioridades:**
+- `priority: high` - Alta prioridad
+- `priority: medium` - Prioridad media
+- `priority: low` - Baja prioridad
+
+### **🚀 CI/CD Pipeline:**
+
+#### **Workflows Automatizados:**
+- **Tests**: Ejecuta pruebas unitarias e integración
+- **Security**: Escaneo de vulnerabilidades
+- **Quality**: Análisis de código con SonarQube
+- **Build**: Compilación y empaquetado
+
+#### **Triggers:**
+- Push a `main` y `develop`
+- Pull Requests a `main` y `develop`
+
+### **📊 Métricas de Calidad:**
+
+#### **Cobertura de Código:**
+- Mínimo 80% de cobertura
+- Reportes generados con JaCoCo
+- Integración con Codecov
+
+#### **Análisis de Código:**
+- SonarQube para análisis estático
+- Detección de code smells
+- Métricas de complejidad ciclomática
+
+### **🔒 Seguridad:**
+
+#### **Escaneo de Dependencias:**
+- OWASP Dependency Check
+- Verificación de vulnerabilidades conocidas
+- Actualización automática de dependencias
+
+#### **Buenas Prácticas:**
+- No committear credenciales
+- Usar variables de entorno
+- Validar inputs de usuario
+- Implementar rate limiting
+
+### **📚 Documentación:**
+
+#### **Mantenimiento:**
+- README actualizado
+- Documentación de API con Swagger
+- Comentarios en código crítico
+- Changelog mantenido
+
+#### **Plantillas:**
+- Pull Request template
+- Issue templates (bug, feature)
+- Commit message template
+
 ## 🤝 Contribución
 
 ### Guías de Contribución
@@ -474,9 +693,133 @@ server:
 - **Tests**: Mantener cobertura > 90%
 - **Documentación**: Comentar métodos públicos
 
+## 📚 Documentación Completa
+
+### **📋 Archivos de Documentación:**
+
+- **[QUICK_START.md](./QUICK_START.md)** - ⚡ Guía de inicio rápido con todos los comandos
+- **[CONTRIBUTING.md](./CONTRIBUTING.md)** - 🤝 Guía completa de contribución
+- **[CHANGELOG.md](./CHANGELOG.md)** - 📋 Historial de cambios y versiones
+- **[SECURITY.md](./SECURITY.md)** - 🔒 Política de seguridad y reporte de vulnerabilidades
+
+### **🔧 Scripts y Herramientas:**
+
+- **[scripts/setup-gitflow.sh](./scripts/setup-gitflow.sh)** - 🐧 Script de configuración GitFlow (Linux/Mac)
+- **[scripts/setup-gitflow.bat](./scripts/setup-gitflow.bat)** - 🪟 Script de configuración GitFlow (Windows)
+
+### **📝 Plantillas y Configuración:**
+
+- **[.github/pull_request_template.md](.github/pull_request_template.md)** - 📋 Plantilla para Pull Requests
+- **[.github/ISSUE_TEMPLATE/](.github/ISSUE_TEMPLATE/)** - 🐛 Plantillas para Issues (Bug/Feature)
+- **[.gitmessage](.gitmessage)** - 💬 Plantilla para mensajes de commit
+- **[.gitflow](.gitflow)** - 🌿 Configuración de GitFlow
+- **[.gitattributes](.gitattributes)** - 📁 Configuración de archivos Git
+
+### **🚀 CI/CD y Workflows:**
+
+- **[.github/workflows/ci.yml](.github/workflows/ci.yml)** - 🔄 Pipeline de CI/CD automatizado
+
+## 🛠️ Comandos Útiles
+
+### **🔧 Desarrollo:**
+```bash
+# Configurar GitFlow
+./scripts/setup-gitflow.sh
+
+# Compilar y testear
+mvn clean compile test
+
+# Ejecutar con cobertura
+mvn test jacoco:report
+
+# Ejecutar aplicación
+mvn spring-boot:run
+
+# Debug mode
+mvn spring-boot:run -Dspring-boot.run.jvmArguments="-Xdebug -Xrunjdwp:transport=dt_socket,server=y,suspend=n,address=5005"
+```
+
+### **🌿 GitFlow:**
+```bash
+# Crear feature
+git flow feature start mi-feature
+
+# Commit con convenciones
+git commit -m "feat(auth): agregar validación de email"
+
+# Finalizar feature
+git flow feature finish mi-feature
+
+# Crear release
+git flow release start 1.1.0
+
+# Finalizar release
+git flow release finish 1.1.0
+
+# Crear hotfix
+git flow hotfix start correccion-urgente
+
+# Finalizar hotfix
+git flow hotfix finish correccion-urgente
+```
+
+### **🧪 Testing:**
+```bash
+# Ejecutar todos los tests
+mvn test
+
+# Test específico
+mvn test -Dtest=AuthenticationServiceTest
+
+# Con reporte de cobertura
+mvn test jacoco:report
+
+# Ver cobertura en navegador
+open target/site/jacoco/index.html
+```
+
+### **🔍 Monitoreo:**
+```bash
+# Health check
+curl http://localhost:8080/health
+
+# Métricas
+curl http://localhost:8080/actuator/metrics
+
+# Info de la aplicación
+curl http://localhost:8080/actuator/info
+
+# Variables de entorno
+curl http://localhost:8080/actuator/env
+```
+
+### **🗄️ Base de Datos:**
+```bash
+# Acceder a H2 Console
+# URL: http://localhost:8080/h2-console
+# JDBC URL: jdbc:h2:mem:testdb
+# Usuario: sa
+# Contraseña: (vacío)
+
+# Ver productos
+curl http://localhost:8080/api/catalog/products
+```
+
+### **🔒 Seguridad:**
+```bash
+# Escanear dependencias
+mvn dependency:check
+
+# Verificar vulnerabilidades
+mvn dependency:tree
+
+# Actualizar dependencias
+mvn versions:display-dependency-updates
+```
+
 ## 📄 Licencia
 
-Este proyecto está bajo la Licencia MIT. Ver el archivo `LICENSE` para más detalles.
+Este proyecto está bajo la Licencia MIT. Ver el archivo **[LICENSE](./LICENSE)** para más detalles.
 
 ## 👥 Equipo
 
@@ -488,8 +831,9 @@ Este proyecto está bajo la Licencia MIT. Ver el archivo `LICENSE` para más det
 
 Para soporte técnico o preguntas:
 - **Email**: soporte@techtrend.com
-- **Documentación**: [Wiki del proyecto]
-- **Issues**: [GitHub Issues]
+- **Issues**: [GitHub Issues](https://github.com/tu-usuario/techtrend-microservice/issues)
+- **Discussions**: [GitHub Discussions](https://github.com/tu-usuario/techtrend-microservice/discussions)
+- **Seguridad**: security@techtrend.com
 
 ---
 
@@ -497,5 +841,8 @@ Para soporte técnico o preguntas:
 
 La aplicación se ejecuta en: **http://localhost:8080/api**
 
-¡Disfruta explorando la plataforma de e-commerce más moderna! 🚀
-# techtrend-microservice
+**¡Disfruta explorando la plataforma de e-commerce más moderna!** 🚀
+
+---
+
+**📚 Documentación**: [QUICK_START.md](./QUICK_START.md) | [CONTRIBUTING.md](./CONTRIBUTING.md) | [CHANGELOG.md](./CHANGELOG.md) | [SECURITY.md](./SECURITY.md)

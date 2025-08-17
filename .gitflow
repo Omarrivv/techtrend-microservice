@@ -1,0 +1,36 @@
+[branch "master"]
+	base = master
+	branch = master
+	suffix = 
+
+[branch "develop"]
+	base = develop
+	branch = develop
+	suffix = 
+
+[branch "feature/*"]
+	base = develop
+	branch = feature/
+	suffix = 
+
+[branch "release/*"]
+	base = develop
+	branch = release/
+	suffix = 
+
+[branch "hotfix/*"]
+	base = master
+	branch = hotfix/
+	suffix = 
+
+[branch "support/*"]
+	base = master
+	branch = support/
+	suffix = 
+
+[prefixes]
+feature = feature/
+release = release/
+hotfix = hotfix/
+support = support/
+versiontag = v

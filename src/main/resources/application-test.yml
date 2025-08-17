@@ -1,0 +1,63 @@
+spring:
+  # Configuración de base de datos para testing
+  datasource:
+    url: jdbc:h2:mem:test_db;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE
+    username: sa
+    password: 
+    driver-class-name: org.h2.Driver
+  
+  # Configuración JPA para testing
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
+    show-sql: false
+    properties:
+      hibernate:
+        format_sql: false
+        dialect: org.hibernate.dialect.H2Dialect
+  
+  # Deshabilitar H2 console en testing
+  h2:
+    console:
+      enabled: false
+
+# Configuración de logging para testing
+logging:
+  level:
+    com.techtrend: INFO
+    org.springframework.security: WARN
+    org.hibernate.SQL: WARN
+    org.hibernate.type.descriptor.sql.BasicBinder: WARN
+
+# Configuración JWT para testing
+jwt:
+  secret: test-secret-key-for-jwt-token-generation
+  expiration: 3600000 # 1 hora en milisegundos para testing
+
+# Configuración de seguridad para testing
+security:
+  bcrypt:
+    strength: 4 # Reducir para testing más rápido
+  jwt:
+    header: Authorization
+    prefix: Bearer
+
+# Configuración de la aplicación para testing
+app:
+  authentication:
+    max-login-attempts: 3
+    lockout-duration: 60000 # 1 minuto para testing
+    
+  catalog:
+    default-page-size: 10
+    max-page-size: 50
+    
+  cart:
+    max-items-per-cart: 20
+    session-timeout: 300000 # 5 minutos para testing
+    
+  payment:
+    supported-currencies:
+      - USD
+      - PEN
+    max-amount: 10000.00

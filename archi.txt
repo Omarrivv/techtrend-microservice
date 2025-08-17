@@ -1,0 +1,211 @@
+Quality Quest | MISIÓN CÓDIGO PERFECTO
+
+Las pruebas son tus armas, la calidad es tu meta y el tiempo es tu desafío
+
+Las pruebas unitarias son esenciales para validar componentes individuales de un sistema, garantizando calidad y mantenibilidad en entornos ágiles. Esta actividad simula un entorno empresarial donde cada equipo contribuye a TechTrend con un microservicio y pruebas unitarias, asegurando que cada integrante de equipo participe activamente.
+
+E-Commerce TechTrend
+
+TechTrend es una plataforma de e-commerce que está enfocada en la venta de equipos informáticos a personas naturales, empresas y técnicos informáticos especializados. Los usuarios interactúan para registrarse, explorar productos, gestionar carritos y realizar pagos. TechTrend utiliza una arquitectura de microservicios para garantizar escalabilidad, modularidad y seguridad, con cada funcionalidad implementada en un microservicio independiente, desplegado en la nube (ejemplo: RENDER, KOYEB, etc.).
+
+Requisito empresarial
+
+→ Seguridad: Maneja datos sensibles (credenciales, pagos), requiriendo lógica robusta y pruebas unitarias para validar comportamientos.
+→ Experiencia del usuario: Funcionalidades confiables aseguran compras fluidas.
+→ Escalabilidad: Soporta picos de tráfico (ejemplo: lanzamientos de productos, ventas de liquidación).
+→ Mantenibilidad: Las pruebas unitarias detectan errores tras actualizaciones, reduciendo regresiones.
+
+Persistencia de datos
+
+→ TechTrend utiliza el motor de base de datos relacional PostgreSQL, por su robustez y uso común en entornos empresariales.
+
+Nota: para todas las pruebas unitarias la base de datos es opcional, ya que las pruebas unitarias usan mocks (Mockito) para simular dependencias como repositorios.
+
+Dependencias entre microservicios
+
+→ Autenticación: Genera tokens usados por Carrito y Pagos para validar usuarios.
+→ Catálogo: Proporciona información de productos (stock, precios) al Carrito y Pagos.
+→ Carrito: Depende del Catálogo para verificar productos y del Autenticación para validar usuarios.
+→ Pagos: Depende del Carrito para obtener montos y del Autenticación para validar usuarios.
+
+Construcción de Microservicios
+
+Cada microservicio es una pieza clave para el e-commerce TechTrend. Las pruebas unitarias deben verificar que cada pieza funcione sola, por equipo cada estudiante prueba un aspecto diferente del microservicio, asegurando que todos contribuyan.
+
+MS | Autenticación
+
+Gestiona el registro y autenticación de usuarios, generando tokens para autorizar acciones en la plataforma.
+
+Caso de uso
+
+→ Un cliente inicia sesión en TechTrend con su correo y contraseña para comprar una laptop.
+
+Gestión de Datos de Usuario
+
+El MS Autenticación gestiona los siguientes datos de usuarios:
+
+→ Identificador único (id).
+→ Correo electrónico único (email: "name-client@techtrend.com").
+→ La contraseña es el Hash/Encriptación (ejemplo: "afcd78hg").
+→ Rol del usuario puede ser: CLIENT O ADMIN.
+
+Funcionalidades
+
+→ Registrar usuarios con email, contraseña y rol (CLIENT o ADMIN).
+→ Validar credenciales para iniciar sesión.
+→ Generar tokens JWT.
+
+Requisito empresarial
+
+→ Garantiza accesos seguros, protegiendo datos sensibles.
+→ Asegura que solo usuarios autorizados realicen compras o administren productos.
+
+Escenarios de Pruebas Unitarias
+
+→ Las credenciales válidas retornan true (ejemplo: "name-cliente@techtrend.com", "afcd78hg").
+→ Email inválido lanza excepción (ejemplo: "invalid-email").
+→ Contraseña incorrecta retorna false.
+→ Rol no autorizado retorna false (ejemplo: ADMIN bloqueado).
+
+MS | Catálogo
+
+Gestiona el catálogo de productos, permitiendo consultar disponibilidad, precios y detalles.
+
+Caso de uso
+
+Un cliente verifica si una laptop está disponible antes de añadirla al carrito.
+
+Gestión de Datos de Catálogo
+
+El MS Catálogo gestiona los siguientes datos de productos:
+
+→ Identificador único (id).
+→ Nombre de producto (ejemplo: "Laptop Ryzen 7").
+→ Precio de producto (ejemplo: 9999.99).
+→ Cantidad (ejemplo: 50 unidades).
+
+Funcionalidades
+
+→ Listar productos disponibles.
+→ Verificar stock para un producto específico.
+→ Obtener detalles de un producto (nombre, precio).
+
+Requisito empresarial
+
+→ Asegura que los clientes vean inventarios precisos y actualizados.
+→ Evita compras de productos agotados, mejorando la experiencia del usuario.
+
+Escenario de Pruebas Unitarias
+
+→ Stock suficiente retorna true (e.g., 10 unidades pedidas, 50 disponibles).
+→ Stock insuficiente retorna false (e.g., 60 unidades pedidas).
+→ Cantidad negativa lanza excepción.
+→ Producto no existente retorna false.
+
+
+MS | Carrito
+
+Permite a los usuarios gestionar productos en su carrito de compras.
+
+Caso de uso
+
+Un cliente agrega una laptop al carrito para comprarla.
+
+Gestión de Datos de Carrito
+
+El MS Carrito gestiona los siguientes datos de compra de productos que compra el cliente:
+
+→ Identificador único (id).
+→ Identificador del usuario (userId).
+→ Identificador del producto (productId).
+→ Cantidad de compra del producto (ejemplo: 2).
+
+Funcionalidades
+
+→ Agregar productos al carrito.
+→ Actualizar cantidades de productos.
+→ Validar existencia de usuarios y productos.
+
+Requisito empresarial
+
+→ Facilita una experiencia de compra fluida.
+→ Asegurar que los carritos reflejen productos disponibles y usuarios autenticados.
+
+Escenario de Pruebas Unitarias
+
+→ Agregar producto válido retorna true.
+→ Producto no disponible retorna false.
+→ Cantidad negativa lanza excepción.
+→ Usuario no existente retorna false.
+
+MS | Pagos
+
+Procesa pagos de pedidos, validando montos y estados.
+
+Caso de uso
+
+Un cliente paga un pedido de una laptop y un monitor.
+
+Gestión de Datos de Pagos
+
+El MS Pagos gestiona los siguientes datos de pago:
+
+→ Identificador único (id).
+→ Identificador del pedido (orderId).
+→ Monto de pago (ejemplo: 1999.98).
+→ Estado (status: PENDING, COMPLETED, FAILED).
+
+Funcionalidades
+
+→ Procesar pagos de pedidos realizados.
+→ Validar existencia de pedidos y montos correctos.
+→ Actualizar estados de pago (PENDING, COMPLETED, FAILED).
+
+Requisito empresarial
+
+→ Asegura transacciones financieras confiables.
+→ Evita errores en pagos, protegiendo ingresos y confianza del cliente.
+
+Escenario de Pruebas Unitarias
+
+→ Pago válido retorna true.
+→ Pedido no existente retorna False.
+→ Monto negativo lanza excepción.
+→ Monto cero lanza excepción.
+
+
+Entregables
+
+Microservicio y Pruebas Unitarias
+
+→ Repositorio de GitHub compartido con los profesores: Valery Chumpitaz y Jesús Canales:
+
+Microservicio (entidad, servicio, controlador)
+
+Pruebas unitarias (4) deben cumplir con: nombres descriptivos de métodos de test, uso de asserts claros y cobertura mínima de escenarios planteados.
+
+Estructura de carpetas a utilizar en el repositorio de trabajo:
+
+techtrend-microservice/
+├── pom.xml                                   # Configuración Maven con JUnit y Mockito
+├── README.md                                 # Instrucciones de uso y roles
+└── src
+    ├── main
+    │   └── java
+    │       └── com
+    │           └── techtrend
+    │               └── <nombre_microservicio>
+    │                   ├── model             # Entidades
+    │                   ├── service           # Lógica de negocio
+    │                   └── controller        # Endpoints
+    └── test
+        └── java
+            └── com
+                └── techtrend
+                    └── <nombre_microservicio>
+                        └── service           # Pruebas unitarias
+
+→ README con las instrucciones para ejecutar y commits que identifiquen al autor de cada prueba realizada.
+
+
+

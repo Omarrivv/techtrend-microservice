@@ -1,0 +1,58 @@
+# Configuración de archivos para Git
+
+# Archivos de texto que deben usar LF
+*.java text eol=lf
+*.xml text eol=lf
+*.yml text eol=lf
+*.yaml text eol=lf
+*.md text eol=lf
+*.txt text eol=lf
+*.properties text eol=lf
+*.sh text eol=lf
+*.bat text eol=crlf
+
+# Archivos binarios
+*.class binary
+*.jar binary
+*.war binary
+*.ear binary
+*.zip binary
+*.tar.gz binary
+*.rar binary
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.ico binary
+*.pdf binary
+
+# Archivos de configuración de IDE
+.idea/ -text
+.vscode/ -text
+*.iml -text
+*.ipr -text
+*.iws -text
+
+# Archivos de build
+target/ -text
+build/ -text
+.gradle/ -text
+
+# Archivos de logs
+*.log -text
+
+# Archivos temporales
+*.tmp -text
+*.temp -text
+*.swp -text
+*.swo -text
+
+# Archivos de sistema
+.DS_Store -text
+Thumbs.db -text
+desktop.ini -text
+
+# Archivos de configuración local
+application-local.yml -text
+application-prod.yml -text
+.env -text
